@@ -339,7 +339,6 @@ module Akismet
 
       if response.body == 'invalid'
         raise Error.new( Error::INVALID_API_KEY, 'Invalid API key' )
-        raise Error, 'Invalid API key'
       end
 
       response
