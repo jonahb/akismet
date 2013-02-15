@@ -4,7 +4,7 @@ Akismet
 A Ruby client for the Akismet API.
 
 Instantiate an `Akismet::Client` with your API key and home page URL. Then
-call `verify_key`, `check_comment`, `submit_ham`, or `submit_spam`.
+call `verify_key`, `comment_check`, `submit_ham`, or `submit_spam`.
 
 Use `Akismet::Client.open` or `Akismet::Client#open` to submit multiple
 requests over a single TCP connection.
