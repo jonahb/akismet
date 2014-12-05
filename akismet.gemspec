@@ -1,4 +1,4 @@
-require 'lib/akismet/version'
+require File.expand_path('../lib/akismet/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
