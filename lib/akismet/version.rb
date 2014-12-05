@@ -1,6 +1,6 @@
 module Akismet
   # The version of the Akismet gem.
-  VERSION = '1.0.0'
+  VERSION = '1.0.1'
 
   # The supported version of the Akismet API.
   API_VERSION = '1.3'
