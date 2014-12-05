@@ -258,7 +258,7 @@ module Akismet
         params )
 
       unless response.body == 'Thanks for making the web a better place.'
-        raise_from_response response
+        raise_with_response response
       end
 
       nil
@@ -280,7 +280,7 @@ module Akismet
         params )
 
       unless response.body == 'Thanks for making the web a better place.'
-        raise_from_response response
+        raise_with_response response
       end
 
       nil
