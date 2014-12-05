@@ -9,7 +9,7 @@ module Akismet
   #
   #   # Verify an API key
   #   #
-  # 
+  #
   #   Akismet::Client.new( 'apikey123', 'http://jonahb.com' ).verify_key
   #
   # @example
@@ -27,14 +27,14 @@ module Akismet
   #     request.user_agent,
   #     :content_type => 'comment',
   #     :referrer => request.headers[ 'HTTP_REFERER' ],
-  #     :permalink => post_url, 
+  #     :permalink => post_url,
   #     :comment_author => comment.author,
   #     :comment_author_email => comment.author_email,
   #     :comment_content => comment.body )
   #
   #   if spam
   #     # ...
-  #   end 
+  #   end
   #
   # @example
   #
@@ -141,7 +141,7 @@ module Akismet
     # to submit a batch of requests using a single TCP and HTTP session.
     #
     # If you don't call this before calling {#comment_check}, {#submit_ham},
-    # or {#submit_spam}, a session will be created and opened for the duration 
+    # or {#submit_spam}, a session will be created and opened for the duration
     # of the call.
     #
     # Note that calls to {#verify_key} always create a session. This is due to
@@ -332,7 +332,7 @@ module Akismet
       params = params.merge :blog => home_url,
         :user_ip => user_ip,
         :user_agent => user_agent
-      
+
       response = in_http_session do |session|
         invoke( session, method_name, params )
       end
@@ -403,7 +403,7 @@ module Akismet
     #
     def user_agent_plugin
       "Ruby Akismet/#{ Akismet::VERSION }"
-    end  
-  
+    end
+
   end
 end
