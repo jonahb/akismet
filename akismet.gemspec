@@ -1,7 +1,6 @@
 require File.expand_path('../lib/akismet/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.platform = Gem::Platform::RUBY
   s.name = 'akismet'
   s.version = Akismet::VERSION
   s.summary = 'A Ruby client for the Akismet API'
