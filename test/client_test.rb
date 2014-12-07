@@ -14,7 +14,7 @@ class ClientTest < Test::Unit::TestCase
       :app_name => APP_NAME,
       :app_version => Akismet::VERSION )
 
-    @invalid_client = Akismet::Client.new( 'invalid_api_key',
+    @invalid_client = Akismet::Client.new( 'invalid-api-key',
       HOME_URL,
       :app_name => APP_NAME,
       :app_version => Akismet::VERSION )
