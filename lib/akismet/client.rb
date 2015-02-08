@@ -369,7 +369,10 @@ module Akismet
     # @return [Hash]
     #
     def http_headers
-      { 'User-Agent' => user_agent }
+      {
+        'User-Agent' => user_agent,
+        'Content-Type' => 'application/x-www-form-urlencoded'
+      }
     end
 
 
