@@ -115,51 +115,54 @@ module Akismet
     end
 
 
-    # Yields a new open Client, closing the Client when the block returns.
-    # Takes the same arguments as {#initialize}. Use for submitting a batch of
-    # requests using a single TCP and HTTP session.
-    #
-    # @yield [Akismet::Client]
-    # @return [nil]
+    # Initializes a client, opens it, yields it to the given block, and closes
+    # it when the block returns. Takes the same arguments as {#initialize}.
     # @see #initialize
+    # @yieldparam [Client] client
+    # @return [Client]
     # @see #open
     #
-    def self.open( api_key, home_url, options = {} )
+    def self.open(*args)
       raise "Block required" unless block_given?
-      client = nil
-      begin
-        client = new( api_key, home_url, options )
-        client.open
-        yield client
-      ensure
-        client.close if client
-      end
-      nil
+      client = new(*args)
+      client.open { yield client }
+      client
     end
 
 
-    # Opens the client. You may use this method in combination with {#close}
-    # to submit a batch of requests using a single TCP and HTTP session.
+    # Opens the client, creating a new TCP connection.
     #
-    # If you don't call this before calling {#comment_check}, {#submit_ham},
-    # or {#submit_spam}, a session will be created and opened for the duration
-    # of the call.
+    # If a block is given, yields to the block, closes the client when the
+    # block returns, and returns the return value of the block. If a
+    # block is not given, returns self and leaves the client open, relying on
+    # the caller to close the client with {#close}.
     #
-    # Note that calls to {#verify_key} always create a session. This is due to
-    # a peculiarity of the Akismet API where {#verify_key} requests must be
-    # sent to a different host.
+    # Note that opening and closing the client is only required if you want to
+    # make several calls under one TCP connection. Otherwise, you can simply
+    # call {#comment_check}, {#submit_ham}, or {#submit_spam}, which call
+    # {#open} for you if necessary.
     #
-    # @return [self]
-    # @raise [RuntimeError]
-    #   The client is already open.
-    # @see #close
-    # @see Akismet::Client.open
+    # Due to a peculiarity of the Akismet API, {#verify_key} always creates its
+    # own connection.
+    #
+    # @yield
+    #   If a block is given, the client is closed when the block returns.
+    # @return [Object, self]
+    #   If a block is given, the return value of the block; otherwise, +self+.
+    # @raise [StandardError]
+    #   The client is already open
     #
     def open
       raise "Already open" if open?
+
       @http_session = Net::HTTP.new( "#{ api_key }.rest.akismet.com", 80 )
-      @http_session.start
-      self
+
+      begin
+        @http_session.start
+        block_given? ? yield : self
+      ensure
+        close if block_given?
+      end
     end
 
 
@@ -297,16 +300,10 @@ module Akismet
     # @yield [Net::HTTP]
     #
     def in_http_session
-      raise "Block required" unless block_given?
       if open?
         yield @http_session
       else
-        begin
-          open
-          yield @http_session
-        ensure
-          close
-        end
+        open { yield @http_session }
       end
     end
 

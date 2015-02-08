@@ -78,6 +78,12 @@ class ClientTest < MiniTest::Unit::TestCase
     end
   end
 
+  def test_open_with_block_opens_then_closes_client
+    refute @client.open?
+    @client.open { assert @client.open? }
+    refute @client.open?
+  end
+
   def test_instance_open_close
     assert !@client.open?
     @client.open
