@@ -12,4 +12,8 @@ Gem::Specification.new do |s|
   s.has_rdoc = 'yard'
   s.files = Dir[ 'README.md', 'MIT-LICENSE', 'lib/**/*' ]
   s.require_path = 'lib'
+
+  s.add_development_dependency 'bundler', '~> 1.7'
+  s.add_development_dependency 'rake', '~> 10.0'
+  s.add_development_dependency 'yard', '~> 0.8.7'
 end
