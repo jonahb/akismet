@@ -111,6 +111,7 @@ module Akismet
       @home_url = home_url
       @app_name = options[ :app_name ]
       @app_version = options[ :app_version ]
+      @http_session = nil
     end
 
 
