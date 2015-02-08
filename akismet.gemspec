@@ -12,7 +12,6 @@ Gem::Specification.new do |spec|
   spec.homepage = 'http://github.com/jonahb/akismet'
   spec.license = 'MIT'
   spec.require_paths = ['lib']
-  spec.has_rdoc = 'yard'
   spec.files = Dir[ 'README.md', 'LICENSE.txt', '.yardopts', 'lib/**/*' ]
 
   spec.add_development_dependency 'bundler', '~> 1.7'
