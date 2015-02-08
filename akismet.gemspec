@@ -1,19 +1,21 @@
-require File.expand_path('../lib/akismet/version', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'akismet/version'
 
-Gem::Specification.new do |s|
-  s.name = 'akismet'
-  s.version = Akismet::VERSION
-  s.summary = 'A Ruby client for the Akismet API'
-  s.description = s.summary
-  s.license = 'MIT'
-  s.author = 'Jonah Burke'
-  s.email = 'jonah@jonahb.com'
-  s.homepage = 'http://github.com/jonahb/akismet'
-  s.has_rdoc = 'yard'
-  s.files = Dir[ 'README.md', 'LICENSE.txt', 'lib/**/*' ]
-  s.require_path = 'lib'
+Gem::Specification.new do |spec|
+  spec.name = 'akismet'
+  spec.version = Akismet::VERSION
+  spec.author = ['Jonah Burke']
+  spec.email = ['jonah@jonahb.com']
+  spec.summary = 'A Ruby client for the Akismet API'
+  spec.homepage = 'http://github.com/jonahb/akismet'
+  spec.license = 'MIT'
+  spec.require_paths = ['lib']
+  spec.has_rdoc = 'yard'
+  spec.files = Dir[ 'README.md', 'LICENSE.txt', '.yardopts', 'lib/**/*' ]
 
-  s.add_development_dependency 'bundler', '~> 1.7'
-  s.add_development_dependency 'rake', '~> 10.0'
-  s.add_development_dependency 'yard', '~> 0.8.7'
+  spec.add_development_dependency 'bundler', '~> 1.7'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'yard', '~> 0.8.7'
 end
