@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ClientTest < Test::Unit::TestCase
+class ClientTest < MiniTest::Unit::TestCase
 
   # jonahb2's key
   API_KEY = 'ecd2022d3247'
@@ -35,7 +35,7 @@ class ClientTest < Test::Unit::TestCase
   end
 
   def test_comment_check_with_invalid_api_key_raises
-    error = assert_raise( Akismet::Error ) do
+    error = assert_raises( Akismet::Error ) do
       @invalid_client.comment_check 'ip', 'ua'
     end
     assert_equal Akismet::Error::INVALID_API_KEY, error.code
@@ -50,7 +50,7 @@ class ClientTest < Test::Unit::TestCase
   end
 
   def test_submit_ham_with_invalid_api_key_raises
-    error = assert_raise( Akismet::Error ) do
+    error = assert_raises( Akismet::Error ) do
       @invalid_client.submit_ham 'ip', 'ua'
     end
     assert_equal Akismet::Error::INVALID_API_KEY, error.code
@@ -61,7 +61,7 @@ class ClientTest < Test::Unit::TestCase
   end
 
   def test_submit_spam_with_invalid_api_key_raises
-    error = assert_raise( Akismet::Error ) do
+    error = assert_raises( Akismet::Error ) do
       @invalid_client.submit_spam 'ip', 'ua'
     end
     assert_equal Akismet::Error::INVALID_API_KEY, error.code
@@ -90,12 +90,12 @@ class ClientTest < Test::Unit::TestCase
     assert !@client.open?
     @client.open
     assert @client.open?
-    assert_raise( RuntimeError ) { @client.open }
+    assert_raises( RuntimeError ) { @client.open }
   end
 
   def test_close_raises_nothing_when_client_closed
     assert !@client.open?
-    assert_nothing_raised { @client.close }
+    @client.close
   end
 
 end
