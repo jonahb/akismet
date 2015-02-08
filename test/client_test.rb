@@ -1,5 +1,5 @@
 require 'test/unit'
-require File.dirname( __FILE__ ) + '/../lib/akismet'
+require 'akismet'
 
 class ClientTest < Test::Unit::TestCase
 
