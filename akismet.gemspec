@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = 'jonah@jonahb.com'
   s.homepage = 'http://github.com/jonahb/akismet'
   s.has_rdoc = 'yard'
-  s.files = Dir[ 'README.md', 'MIT-LICENSE', 'lib/**/*' ]
+  s.files = Dir[ 'README.md', 'LICENSE.txt', 'lib/**/*' ]
   s.require_path = 'lib'
 
   s.add_development_dependency 'bundler', '~> 1.7'
