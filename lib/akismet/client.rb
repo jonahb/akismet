@@ -84,12 +84,19 @@ module Akismet
     # Due to a peculiarity of the Akismet API, {#verify_key} always creates its
     # own connection.
     #
-    # @yield
-    #   If a block is given, the client is closed when the block returns.
-    # @return [Object, self]
-    #   If a block is given, the return value of the block; otherwise, +self+.
-    # @raise [StandardError]
-    #   The client is already open
+    # @overload open
+    #   Opens the client, yields to the block, and closes the client when the
+    #   block returns.
+    #   @yield
+    #     A block to be called when the client is open
+    #   @return [Object]
+    #     The return value of the block
+    #   @raise [StandardError]
+    #     The client is already open    
+    # @overload open
+    #   @return [self]
+    #   @raise [StandardError]
+    #     The client is already open
     #
     def open
       raise "Already open" if open?
