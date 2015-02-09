@@ -72,27 +72,19 @@ module Akismet
 
     # The API key obtained at akismet.com.
     # @return [String]
-    #
     attr_reader :api_key
-
 
     # The URL of the home page of the application making the request.
     # @return [String]
-    #
     attr_reader :home_url
-
 
     # The name of the application making the request, e.g "jonahb.com".
     # @return [String]
-    #
     attr_reader :app_name
-
 
     # The version of the application making the request, e.g. "1.0".
     # @return [String]
-    #
     attr_reader :app_version
-
 
     # @param [String] api_key
     #   The API key obtained at akismet.com.
@@ -114,7 +106,6 @@ module Akismet
       @http_session = nil
     end
 
-
     # Initializes a client, opens it, yields it to the given block, and closes
     # it when the block returns. Takes the same arguments as {#initialize}.
     # @see #initialize
@@ -128,7 +119,6 @@ module Akismet
       client.open { yield client }
       client
     end
-
 
     # Opens the client, creating a new TCP connection.
     #
@@ -165,7 +155,6 @@ module Akismet
       end
     end
 
-
     # Closes the Client.
     # @return [self]
     # @see #open
@@ -176,14 +165,12 @@ module Akismet
       self
     end
 
-
     # Whether the Client is open.
     # @return [Boolean]
     #
     def open?
       @http_session && @http_session.started?
     end
-
 
     # Checks the validity of the API key.
     # @return [Boolean]
@@ -199,7 +186,6 @@ module Akismet
 
       response.body == 'valid'
     end
-
 
     # Checks whether a comment is spam. You are encouraged the submit, in
     # addition to the documented parameters, data about the client and the
@@ -287,7 +273,8 @@ module Akismet
     end
     alias_method :submit_spam, :spam
 
-  private
+
+    private
 
 
     # Yields an HTTP session to the given block. Uses this instance's open
@@ -303,7 +290,6 @@ module Akismet
       end
     end
 
-
     # Raises an error given a response. The Akismet documentation states that
     # the HTTP headers of the response may contain error strings. I can't
     # seem to find them, so for now just raise an unknown error.
@@ -312,7 +298,6 @@ module Akismet
     def raise_with_response( response )
       raise Error.new( Error::UNKNOWN, 'Unknown error' )
     end
-
 
     # @param [String] method_name
     # @param [String] user_ip
@@ -338,7 +323,6 @@ module Akismet
       response
     end
 
-
     # @param [Net::HTTP] http_session
     #   A started HTTP session
     # @param [String] method_name
@@ -358,9 +342,7 @@ module Akismet
       response
     end
 
-
     # @return [Hash]
-    #
     def http_headers
       {
         'User-Agent' => user_agent,
@@ -368,15 +350,12 @@ module Akismet
       }
     end
 
-
     # @return [String]
-    #
     def url_encode( hash = {} )
       hash.collect do |k, v|
         "#{ CGI.escape( k.to_s ) }=#{ CGI.escape( v.to_s ) }"
       end.join( "&" )
     end
-
 
     # From the Akismet documentation:
     #   If possible, your user agent string should always use the following
@@ -387,7 +366,6 @@ module Akismet
       [ user_agent_app, user_agent_plugin ].compact.join( " | " )
     end
 
-
     # Returns nil if the Client was instantiated without an app_name.
     # @return [String]
     #
@@ -395,9 +373,7 @@ module Akismet
       app_name && [ app_name, app_version ].compact.join( "/" )
     end
 
-
     # @return [String]
-    #
     def user_agent_plugin
       "Ruby Akismet/#{ Akismet::VERSION }"
     end
