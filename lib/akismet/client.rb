@@ -13,11 +13,11 @@ module Akismet
     # @return [String]
     attr_reader :home_url
 
-    # The name of the application making the request, e.g "jonahb.com".
+    # The name of the application making the request
     # @return [String]
     attr_reader :app_name
 
-    # The version of the application making the request, e.g. "1.0".
+    # The version of the application making the request
     # @return [String]
     attr_reader :app_version
 
