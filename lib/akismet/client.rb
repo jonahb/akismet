@@ -3,71 +3,6 @@ require 'cgi'
 
 module Akismet
 
-  # A Ruby client for the Akismet API.
-  #
-  # @example
-  #
-  #   # Verify an API key
-  #   #
-  #
-  #   Akismet::Client.new( 'apikey123', 'http://jonahb.com' ).verify_key
-  #
-  # @example
-  #
-  #   # Check whether a comment is spam
-  #   #
-  #
-  #   client = Akismet::Client.new( 'apikey123',
-  #     'http://jonahb.com',
-  #     :app_name => 'jonahb.com',
-  #     :app_version => '1.0' )
-  #
-  #   # assumes variables comment, post_url, request (a racklike HTTP request)
-  #   spam = client.comment_check( request.remote_ip,
-  #     request.user_agent,
-  #     :content_type => 'comment',
-  #     :referrer => request.headers[ 'HTTP_REFERER' ],
-  #     :permalink => post_url,
-  #     :comment_author => comment.author,
-  #     :comment_author_email => comment.author_email,
-  #     :comment_content => comment.body )
-  #
-  #   if spam
-  #     # ...
-  #   end
-  #
-  # @example
-  #
-  #   # Submit a batch of checks using a single TCP connection
-  #   #
-  #
-  #
-  #   client = Akismet::Client.new( 'apikey123',
-  #     'http://jonahb.com',
-  #     :app_name => 'jonahb.com',
-  #     :app_version => '1.0' )
-  #
-  #   begin
-  #     client.open
-  #     comments.each do |comment|
-  #       client.comment_check( ... )  # see example above
-  #     end
-  #   ensure
-  #     client.close
-  #   end
-  #
-  #   # ... or ...
-  #
-  #   Akismet::Client.open( 'apikey123',
-  #     'http://jonahb.com',
-  #     :app_name => 'jonahb.com',
-  #     :app_version => '1.0' ) do |client|
-  #     comments.each do |comment|
-  #       client.comment_check( ... )  # see example above
-  #     end
-  #   end
-  #
-  #
   class Client
 
     # The API key obtained at akismet.com.
@@ -112,6 +47,15 @@ module Akismet
 
     # Initializes a client, opens it, yields it to the given block, and closes
     # it when the block returns.
+    #
+    # @example Submit several spam reports over a single TCP connection
+    #   # `comments` is an array of strings; `request` is a racklike HTTP request
+    #   Akismet::Client.open('api_key', 'http://example.com') do |client|
+    #     for comment in comments
+    #       client.spam request.remote_ip, request.user_agent, :comment_content => comment
+    #     end
+    #   end
+    #
     # @param (see #initialize)
     # @option (see #initialize)
     # @yieldparam [Client] client
@@ -180,6 +124,8 @@ module Akismet
     #@!group Akismet API
 
     # Checks the validity of the API key.
+    # @example
+    #   Akismet::Client.new('apikey', 'http://example.com').verify_key
     # @return [Boolean]
     #
     def verify_key
