@@ -111,15 +111,16 @@ module Akismet
     #@!group Sessions
 
     # Initializes a client, opens it, yields it to the given block, and closes
-    # it when the block returns. Takes the same arguments as {#initialize}.
-    # @see #initialize
+    # it when the block returns.
+    # @param (see #initialize)
+    # @option (see #initialize)
     # @yieldparam [Client] client
     # @return [Client]
     # @see #open
     #
-    def self.open(*args)
+    def self.open(api_key, home_url, options = {})
       raise "Block required" unless block_given?
-      client = new(*args)
+      client = new(api_key, home_url)
       client.open { yield client }
       client
     end
