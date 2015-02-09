@@ -178,7 +178,7 @@ module Akismet
 
 
     # Whether the Client is open.
-    # @return [boolean]
+    # @return [Boolean]
     #
     def open?
       @http_session && @http_session.started?
@@ -186,7 +186,7 @@ module Akismet
 
 
     # Checks the validity of the API key.
-    # @return [boolean]
+    # @return [Boolean]
     #
     def verify_key
       response = Net::HTTP.start( 'rest.akismet.com', 80 ) do |session|
@@ -208,7 +208,7 @@ module Akismet
     #
     # If the Client is not open, opens it for the duration of the call.
     #
-    # @return [boolean]
+    # @return [Boolean]
     # @raise [Akismet::Error]
     # @param [String] user_ip
     #   The IP address of the submitter of the comment.
