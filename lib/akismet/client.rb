@@ -134,8 +134,8 @@ module Akismet
     #
     # Note that opening and closing the client is only required if you want to
     # make several calls under one TCP connection. Otherwise, you can simply
-    # call {#comment_check}, {#submit_ham}, or {#submit_spam}, which call
-    # {#open} for you if necessary.
+    # call {#check}, {#ham}, or {#spam}, which call {#open} for you if
+    # necessary.
     #
     # Due to a peculiarity of the Akismet API, {#verify_key} always creates its
     # own connection.
