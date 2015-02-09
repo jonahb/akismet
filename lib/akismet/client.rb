@@ -52,7 +52,7 @@ module Akismet
     #   # `comments` is an array of strings; `request` is a racklike HTTP request
     #   Akismet::Client.open('api_key', 'http://example.com') do |client|
     #     for comment in comments
-    #       client.spam request.remote_ip, request.user_agent, :comment_content => comment
+    #       client.spam request.ip, request.user_agent, :comment_content => comment
     #     end
     #   end
     #
