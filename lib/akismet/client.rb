@@ -233,7 +233,7 @@ module Akismet
     # @option params [String] :comment_content
     #   The text of the comment.
     #
-    def comment_check( user_ip, user_agent, params = {} )
+    def check( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'comment-check',
         user_ip,
         user_agent,
@@ -245,7 +245,7 @@ module Akismet
 
       response.body == 'true'
     end
-
+    alias_method :comment_check, :check
 
     # Submits a comment that has been identified as not-spam (ham). Takes
     # the same arguments as {#comment_check}. If the Client is not open, opens
@@ -255,7 +255,7 @@ module Akismet
     # @raise [Akismet::Error]
     # @see #comment_check
     #
-    def submit_ham( user_ip, user_agent, params = {} )
+    def ham( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'submit-ham',
         user_ip,
         user_agent,
@@ -267,7 +267,7 @@ module Akismet
 
       nil
     end
-
+    alias_method :submit_ham, :ham
 
     # Submits a comment that has been identified as spam. Takes the same
     # arguments as {#comment_check}. If the Client is not open, opens it for
@@ -277,7 +277,7 @@ module Akismet
     # @raise [Akismet::Error]
     # @see #comment_check
     #
-    def submit_spam( user_ip, user_agent, params = {} )
+    def spam( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'submit-spam',
         user_ip,
         user_agent,
@@ -289,7 +289,7 @@ module Akismet
 
       nil
     end
-
+    alias_method :submit_spam, :spam
 
   private
 
