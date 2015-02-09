@@ -233,13 +233,13 @@ module Akismet
     end
     alias_method :comment_check, :check
 
-    # Submits a comment that has been identified as not-spam (ham). Takes
-    # the same arguments as {#comment_check}. If the Client is not open, opens
-    # it for the duration of the call.
+    # Submits a comment that has been identified as not-spam (ham). If the
+    # Client is not open, opens it for the duration of the call.
     #
+    # @param (see #check)
+    # @option (see #check)
     # @return [void]
-    # @raise [Akismet::Error]
-    # @see #comment_check
+    # @raise (see #check)
     #
     def ham( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'submit-ham',
@@ -253,13 +253,13 @@ module Akismet
     end
     alias_method :submit_ham, :ham
 
-    # Submits a comment that has been identified as spam. Takes the same
-    # arguments as {#comment_check}. If the Client is not open, opens it for
-    # the duration of the call.
+    # Submits a comment that has been identified as spam. If the Client is not
+    # open, opens it for the duration of the call.
     #
+    # @param (see #check)
+    # @option (see #check)
     # @return [void]
-    # @raise [Akismet::Error]
-    # @see #comment_check
+    # @raise (see #check)
     #
     def spam( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'submit-spam',
