@@ -86,6 +86,8 @@ module Akismet
     # @return [String]
     attr_reader :app_version
 
+    #@!group Constructors
+
     # @param [String] api_key
     #   The API key obtained at akismet.com.
     # @param [String] home_url
@@ -105,6 +107,8 @@ module Akismet
       @app_version = options[ :app_version ]
       @http_session = nil
     end
+
+    #@!group Sessions
 
     # Initializes a client, opens it, yields it to the given block, and closes
     # it when the block returns. Takes the same arguments as {#initialize}.
@@ -171,6 +175,8 @@ module Akismet
     def open?
       @http_session && @http_session.started?
     end
+
+    #@!group Akismet API
 
     # Checks the validity of the API key.
     # @return [Boolean]
