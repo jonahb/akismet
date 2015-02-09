@@ -251,7 +251,7 @@ module Akismet
     # the same arguments as {#comment_check}. If the Client is not open, opens
     # it for the duration of the call.
     #
-    # @return [nil]
+    # @return [void]
     # @raise [Akismet::Error]
     # @see #comment_check
     #
@@ -264,8 +264,6 @@ module Akismet
       unless response.body == 'Thanks for making the web a better place.'
         raise_with_response response
       end
-
-      nil
     end
     alias_method :submit_ham, :ham
 
@@ -273,7 +271,7 @@ module Akismet
     # arguments as {#comment_check}. If the Client is not open, opens it for
     # the duration of the call.
     #
-    # @return [nil]
+    # @return [void]
     # @raise [Akismet::Error]
     # @see #comment_check
     #
@@ -286,8 +284,6 @@ module Akismet
       unless response.body == 'Thanks for making the web a better place.'
         raise_with_response response
       end
-
-      nil
     end
     alias_method :submit_spam, :spam
 
