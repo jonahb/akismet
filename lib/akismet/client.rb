@@ -35,7 +35,7 @@ module Akismet
     #   part of the User-Agent header submitted to Akismet. Ignored if
     #   :app_name is not privded.
     #
-    def initialize( api_key, home_url, options = {} )
+    def initialize(api_key, home_url, options = {})
       @api_key = api_key
       @home_url = home_url
       @app_name = options[ :app_name ]
@@ -136,11 +136,11 @@ module Akismet
     # @return [Boolean]
     #
     def verify_key
-      response = Net::HTTP.start( 'rest.akismet.com', 80 ) do |session|
-        invoke( session, 'verify-key', blog: home_url, key: api_key )
+      response = Net::HTTP.start('rest.akismet.com', 80) do |session|
+        invoke session, 'verify-key', blog: home_url, key: api_key
       end
 
-      unless %w{ valid invalid }.include?( response.body )
+      unless %w{ valid invalid }.include?(response.body)
         raise_with_response response
       end
 
@@ -179,13 +179,13 @@ module Akismet
     # @option params [String] :author_url
     #   The comment author's home page URL
     #
-    def check( user_ip, user_agent, params = {} )
-      response = invoke_comment_method( 'comment-check',
+    def check(user_ip, user_agent, params = {})
+      response = invoke_comment_method('comment-check',
         user_ip,
         user_agent,
-        params )
+        params)
 
-      unless %w{ true false }.include?( response.body )
+      unless %w{ true false }.include?(response.body)
         raise_with_response response
       end
 
@@ -201,11 +201,11 @@ module Akismet
     # @return [void]
     # @raise (see #check)
     #
-    def ham( user_ip, user_agent, params = {} )
-      response = invoke_comment_method( 'submit-ham',
+    def ham(user_ip, user_agent, params = {})
+      response = invoke_comment_method('submit-ham',
         user_ip,
         user_agent,
-        params )
+        params)
 
       unless response.body == 'Thanks for making the web a better place.'
         raise_with_response response
@@ -221,11 +221,11 @@ module Akismet
     # @return [void]
     # @raise (see #check)
     #
-    def spam( user_ip, user_agent, params = {} )
-      response = invoke_comment_method( 'submit-spam',
+    def spam(user_ip, user_agent, params = {})
+      response = invoke_comment_method('submit-spam',
         user_ip,
         user_agent,
-        params )
+        params)
 
       unless response.body == 'Thanks for making the web a better place.'
         raise_with_response response
@@ -263,17 +263,17 @@ module Akismet
     # @raise [Akismet::Error]
     #   The API key is invalid.
     #
-    def invoke_comment_method( method_name, user_ip, user_agent, params = {} )
+    def invoke_comment_method(method_name, user_ip, user_agent, params = {})
       params = params.each_with_object(Hash.new) do |(name, value), hash|
         hash[PARAM_NAME_REPLACEMENTS[name] || name] = value
       end
 
-      params = params.merge blog: home_url,
+      params = params.merge(blog: home_url,
         user_ip: user_ip,
-        user_agent: user_agent
+        user_agent: user_agent)
 
       in_http_session do |session|
-        invoke( session, method_name, params )
+        invoke session, method_name, params
       end
     end
 
@@ -284,10 +284,10 @@ module Akismet
     # @raise [Akismet::Error]
     #   An HTTP response other than 200 is received.
     #
-    def invoke( http_session, method_name, params = {} )
-      response = http_session.post( "/1.1/#{ method_name }",
-        url_encode( params ),
-        http_headers )
+    def invoke(http_session, method_name, params = {})
+      response = http_session.post("/1.1/#{ method_name }",
+        url_encode(params),
+        http_headers)
 
       unless response.is_a?( Net::HTTPOK )
         raise Error, "HTTP #{ response.code } received (expected 200)"
@@ -305,7 +305,7 @@ module Akismet
     end
 
     # @return [String]
-    def url_encode( hash = {} )
+    def url_encode(hash = {})
       hash.collect do |k, v|
         "#{ CGI.escape( k.to_s ) }=#{ CGI.escape( v.to_s ) }"
       end.join( "&" )
@@ -317,14 +317,14 @@ module Akismet
     # @return [String]
     #
     def user_agent
-      [ user_agent_app, user_agent_plugin ].compact.join( " | " )
+      [user_agent_app, user_agent_plugin].compact.join(" | ")
     end
 
     # Returns nil if the Client was instantiated without an app_name.
     # @return [String]
     #
     def user_agent_app
-      app_name && [ app_name, app_version ].compact.join( "/" )
+      app_name && [app_name, app_version].compact.join("/")
     end
 
     # @return [String]
