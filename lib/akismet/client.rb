@@ -256,7 +256,7 @@ module Akismet
     # @param [Net::HTTPResponse] response
     #
     def raise_with_response( response )
-      raise Error.new( Error::UNKNOWN, 'Unknown error' )
+      raise Error, 'Unknown error'
     end
 
     # @param [String] method_name
@@ -276,15 +276,9 @@ module Akismet
         :user_ip => user_ip,
         :user_agent => user_agent
 
-      response = in_http_session do |session|
+      in_http_session do |session|
         invoke( session, method_name, params )
       end
-
-      if response.body == 'invalid'
-        raise Error.new( Error::INVALID_API_KEY, 'Invalid API key' )
-      end
-
-      response
     end
 
     # @param [Net::HTTP] http_session

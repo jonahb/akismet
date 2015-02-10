@@ -33,10 +33,9 @@ class ClientTest < MiniTest::Unit::TestCase
   end
 
   def test_comment_check_with_invalid_api_key_raises
-    error = assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::Error ) do
       @invalid_client.comment_check 'ip', 'ua'
     end
-    assert_equal Akismet::Error::INVALID_API_KEY, error.code
   end
 
   # Akismet always returns true when comment_check is called with the
@@ -48,10 +47,9 @@ class ClientTest < MiniTest::Unit::TestCase
   end
 
   def test_submit_ham_with_invalid_api_key_raises
-    error = assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::Error ) do
       @invalid_client.submit_ham 'ip', 'ua'
     end
-    assert_equal Akismet::Error::INVALID_API_KEY, error.code
   end
 
   def test_submit_ham_returns_nil
@@ -59,10 +57,9 @@ class ClientTest < MiniTest::Unit::TestCase
   end
 
   def test_submit_spam_with_invalid_api_key_raises
-    error = assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::Error ) do
       @invalid_client.submit_spam 'ip', 'ua'
     end
-    assert_equal Akismet::Error::INVALID_API_KEY, error.code
   end
 
   def test_submit_spam_returns_nil
