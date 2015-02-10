@@ -2,8 +2,6 @@ require 'test_helper'
 
 class ClientTest < MiniTest::Unit::TestCase
 
-  # jonahb2's key
-  API_KEY = 'ecd2022d3247'
   HOME_URL = 'http://example.com'
   APP_NAME = 'Akismet tests'
 
