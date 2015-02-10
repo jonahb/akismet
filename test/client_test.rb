@@ -46,7 +46,7 @@ class ClientTest < MiniTest::Unit::TestCase
   def test_comment_check_with_spam_returns_true
     assert @client.comment_check( 'ip',
       'ua',
-      :comment_author => 'viagra-test-123' )
+      :author => 'viagra-test-123' )
   end
 
   def test_submit_ham_with_invalid_api_key_raises

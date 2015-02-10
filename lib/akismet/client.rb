@@ -49,10 +49,10 @@ module Akismet
     # it when the block returns.
     #
     # @example Submit several spam reports over a single TCP connection
-    #   # `comments` is an array of strings; `request` is a racklike HTTP request
+    #   # `comments` is an array of model objects; `request` is a racklike HTTP request
     #   Akismet::Client.open('api_key', 'http://example.com') do |client|
     #     for comment in comments
-    #       client.spam request.ip, request.user_agent, :comment_content => comment
+    #       client.spam request.ip, request.user_agent, text: comment.text
     #     end
     #   end
     #
@@ -165,19 +165,19 @@ module Akismet
     # @option params [String] :referrer
     #   The value of the HTTP_REFERER header. Note that the parameter is
     #   spelled with two consecutive 'r's.
-    # @option params [String] :permalink
-    #   The permanent URL of the entry to which the comment pertains.
-    # @option params [String] :comment_type
+    # @option params [String] :post_url
+    #   The URL of the post, article, etc. on which the comment was made
+    # @option params [String] :type
     #   'comment', 'trackback', 'pingback', or a made-up value like
     #   'registration'
-    # @option params [String] :comment_author
-    #   The name of the author of the comment.
-    # @option params [String] :comment_author_email
-    #   The email address of the author of the comment.
-    # @option params [String] :comment_author_url
-    #   A URL submitted with the comment.
-    # @option params [String] :comment_content
+    # @option params [String] :text
     #   The text of the comment.
+    # @option params [String] :author
+    #   The comment author's name
+    # @option params [String] :author_email
+    #   The comment author's email address
+    # @option params [String] :author_url
+    #   The comment author's home page URL
     #
     def check( user_ip, user_agent, params = {} )
       response = invoke_comment_method( 'comment-check',
@@ -268,6 +268,10 @@ module Akismet
     #   The API key is invalid.
     #
     def invoke_comment_method( method_name, user_ip, user_agent, params = {} )
+      params = params.each_with_object(Hash.new) do |(name, value), hash|
+        hash[PARAM_NAME_REPLACEMENTS[name] || name] = value
+      end
+
       params = params.merge :blog => home_url,
         :user_ip => user_ip,
         :user_agent => user_agent
@@ -337,6 +341,15 @@ module Akismet
     def user_agent_plugin
       "Ruby Akismet/#{ Akismet::VERSION }"
     end
+
+    PARAM_NAME_REPLACEMENTS = {
+      :post_url => :permalink,
+      :text => :comment_content,
+      :type => :comment_type,
+      :author => :comment_author,
+      :author_url => :comment_author_url,
+      :author_email => :comment_author_email
+    }
 
   end
 end
