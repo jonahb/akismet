@@ -8,13 +8,13 @@ class ClientTest < MiniTest::Unit::TestCase
   def setup
     @client = Akismet::Client.new( API_KEY,
       HOME_URL,
-      :app_name => APP_NAME,
-      :app_version => Akismet::VERSION )
+      app_name: APP_NAME,
+      app_version: Akismet::VERSION )
 
     @invalid_client = Akismet::Client.new( 'invalid-api-key',
       HOME_URL,
-      :app_name => APP_NAME,
-      :app_version => Akismet::VERSION )
+      app_name: APP_NAME,
+      app_version: Akismet::VERSION )
   end
 
   def test_attrs
@@ -43,7 +43,7 @@ class ClientTest < MiniTest::Unit::TestCase
   def test_comment_check_with_spam_returns_true
     assert @client.comment_check( 'ip',
       'ua',
-      :author => 'viagra-test-123' )
+      author: 'viagra-test-123' )
   end
 
   def test_submit_ham_with_invalid_api_key_raises

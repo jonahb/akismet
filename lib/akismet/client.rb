@@ -137,7 +137,7 @@ module Akismet
     #
     def verify_key
       response = Net::HTTP.start( 'rest.akismet.com', 80 ) do |session|
-        invoke( session, 'verify-key', :blog => home_url, :key => api_key )
+        invoke( session, 'verify-key', blog: home_url, key: api_key )
       end
 
       unless %w{ valid invalid }.include?( response.body )
@@ -268,9 +268,9 @@ module Akismet
         hash[PARAM_NAME_REPLACEMENTS[name] || name] = value
       end
 
-      params = params.merge :blog => home_url,
-        :user_ip => user_ip,
-        :user_agent => user_agent
+      params = params.merge blog: home_url,
+        user_ip: user_ip,
+        user_agent: user_agent
 
       in_http_session do |session|
         invoke( session, method_name, params )
@@ -333,12 +333,12 @@ module Akismet
     end
 
     PARAM_NAME_REPLACEMENTS = {
-      :post_url => :permalink,
-      :text => :comment_content,
-      :type => :comment_type,
-      :author => :comment_author,
-      :author_url => :comment_author_url,
-      :author_email => :comment_author_email
+      post_url: :permalink,
+      text: :comment_content,
+      type: :comment_type,
+      author: :comment_author,
+      author_url: :comment_author_url,
+      author_email: :comment_author_email
     }
 
   end
