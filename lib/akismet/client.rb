@@ -250,13 +250,9 @@ module Akismet
       end
     end
 
-    # Raises an error given a response. The Akismet documentation states that
-    # the HTTP headers of the response may contain error strings. I can't
-    # seem to find them, so for now just raise an unknown error.
     # @param [Net::HTTPResponse] response
-    #
     def raise_with_response( response )
-      raise Error, 'Unknown error'
+      raise Error, response['X-akismet-debug-help'] || 'Unknown error'
     end
 
     # @param [String] method_name
