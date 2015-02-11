@@ -173,12 +173,18 @@ module Akismet
     #   The comment author's email address
     # @option params [String] :author_url
     #   The comment author's home page URL
+    # @option params [Hash{Symbol, String => Object}] :env
+    #   Environment variables related to the comment submission
     # @return [(Boolean, Boolean)]
     #   An array containing two booleans. The first indicates whether the
     #   comment is spam. The second indicates whether it is "blatant,"
     #   i.e. whether it can be deleted without review.
     # @raise [Akismet::Error]
     #   The Akismet service returned an error
+    # @raise [ArgumentError]
+    #   An environment variable conflicts with a built-in parameter
+    # @raise [ArgumentError]
+    #   Invalid parameter
     #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
@@ -276,15 +282,27 @@ module Akismet
     # @param [String] user_agent
     # @param [Hash] params
     # @return [Net::HTTPResponse]
+    # @raise [ArgumentError]
+    #   An environment variable conflicts with a built-in parameter
+    # @raise [ArgumentError]
+    #   Invalid parameter
     #
     def invoke_comment_method(method_name, user_ip, user_agent, params = {})
-      params = params.each_with_object(Hash.new) do |(name, value), hash|
-        hash[PARAM_NAME_REPLACEMENTS[name] || name] = value
+      env = params[:env] || {}
+
+      for key in env.keys
+        if PARAM_TO_API_PARAM.has_value?(key.to_sym)
+          raise ArgumentError, "Environment variable '#{key}' conflicts with built-in API parameter"
+        end
       end
 
-      params = params.merge(blog: home_url,
-        user_ip: user_ip,
-        user_agent: user_agent)
+      params = params.each_with_object(Hash.new) do |(name, value), api_params|
+        next if name == :env
+        api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{name}")
+        api_params[api_name] = value
+      end
+
+      params = env.merge(params).merge(blog: home_url, user_ip: user_ip, user_agent: user_agent)
 
       in_http_session do |session|
         invoke session, method_name, params
@@ -339,13 +357,15 @@ module Akismet
       "Ruby Akismet/#{ Akismet::VERSION }"
     end
 
-    PARAM_NAME_REPLACEMENTS = {
+    PARAM_TO_API_PARAM = {
+      referrer: :referrer,
       post_url: :permalink,
       text: :comment_content,
       type: :comment_type,
       author: :comment_author,
       author_url: :comment_author_url,
-      author_email: :comment_author_email
+      author_email: :comment_author_email,
+      user_role: :user_role,
     }
 
   end

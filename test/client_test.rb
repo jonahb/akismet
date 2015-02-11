@@ -72,6 +72,18 @@ class ClientTest < MiniTest::Unit::TestCase
     end
   end
 
+  def test_conflicting_env_var_raises
+    assert_raises(ArgumentError) do
+      @client.check 'ip', 'ua', env: { referrer: 'referrer' }
+    end
+  end
+
+  def test_invalid_param_raises
+    assert_raises(ArgumentError) do
+      @client.check 'ip', 'ua', invalid_param: 'invalid'
+    end
+  end
+
   def test_class_open
     Akismet::Client.open( API_KEY, HOME_URL ) do |client|
       assert client.is_a?( Akismet::Client )
