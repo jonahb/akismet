@@ -43,7 +43,7 @@ module Akismet
       @http_session = nil
     end
 
-    #@!group Sessions
+    #@!group Managing Connections
 
     # Initializes a client, opens it, yields it to the given block, and closes
     # it when the block returns.
@@ -128,7 +128,7 @@ module Akismet
       @http_session && @http_session.started?
     end
 
-    #@!group Akismet API
+    #@!group Verifying Keys
 
     # Checks the validity of the API key.
     # @example
@@ -146,6 +146,8 @@ module Akismet
 
       response.body == 'valid'
     end
+
+    #@!group Checking
 
     # Checks whether a comment is spam and whether it is "blatant."
     # @param [String] user_ip
@@ -203,6 +205,8 @@ module Akismet
     def spam?(user_ip, user_agent, params = {})
       check(user_ip, user_agent, params)[0]
     end
+
+    #@!group Reporting
 
     # Submits a comment that has been identified as not-spam (ham). If the
     # Client is not open, opens it for the duration of the call.
