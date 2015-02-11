@@ -162,6 +162,7 @@ module Akismet
     #   The user agent of the web browser submitting the comment. Typically
     #   the HTTP_USER_AGENT CGI variable. Not to be confused with the user
     #   agent of the Akismet library.
+    # @param [Hash{Symbol => Object}] params
     # @option params [String] :referrer
     #   The value of the HTTP_REFERER header. Note that the parameter is
     #   spelled with two consecutive 'r's.
