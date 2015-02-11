@@ -40,13 +40,13 @@ class ClientTest < MiniTest::Unit::TestCase
 
   # Akismet returns true when author == 'viagra-test-123'
   def test_check_with_spam_returns_true
-    spam, blatant = @client.check('ip', 'ua', author: 'viagra-test-123')
+    spam, _ = @client.check('ip', 'ua', author: 'viagra-test-123')
     assert spam
   end
 
   # Akismet returns false when user_role == 'administrator'
   def test_check_with_ham_returns_false
-    spam, blatant = @client.check('ip', 'ua', user_role: 'administrator')
+    spam, _ = @client.check('ip', 'ua', user_role: 'administrator')
     refute spam
   end
 
