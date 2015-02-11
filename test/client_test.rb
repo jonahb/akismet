@@ -45,8 +45,19 @@ class ClientTest < MiniTest::Unit::TestCase
     assert spam
   end
 
+  # Akismet returns false when user_role == 'administrator'
+  def test_check_with_ham_returns_false
+    spam, blatant = @client.check('ip', 'ua', user_role: 'administrator')
+    refute spam
+  end
+
   def test_spam_with_spam_returns_true
     assert @client.spam?('ip', 'ua', author: 'viagra-test-123')
+  end
+
+  # Akismet returns false when user_role == 'administrator'
+  def test_spam_with_ham_returns_false
+    refute @client.spam?('ip', 'ua', user_role: 'administrator')
   end
 
   def test_ham_with_invalid_api_key_raises
