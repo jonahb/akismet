@@ -1,5 +1,5 @@
 require 'net/http'
-require 'cgi'
+require 'uri'
 
 module Akismet
 
@@ -301,7 +301,7 @@ module Akismet
     #
     def invoke(http_session, method_name, params = {})
       response = http_session.post("/1.1/#{ method_name }",
-        url_encode(params),
+        URI.encode_www_form(params),
         http_headers)
 
       unless response.is_a?( Net::HTTPOK )
@@ -317,13 +317,6 @@ module Akismet
         'User-Agent' => user_agent,
         'Content-Type' => 'application/x-www-form-urlencoded'
       }
-    end
-
-    # @return [String]
-    def url_encode(hash = {})
-      hash.collect do |k, v|
-        "#{ CGI.escape( k.to_s ) }=#{ CGI.escape( v.to_s ) }"
-      end.join( "&" )
     end
 
     # From the Akismet documentation:
