@@ -38,8 +38,7 @@ class ClientTest < MiniTest::Unit::TestCase
     end
   end
 
-  # Akismet always returns true when comment_check is called with the
-  # author 'viagra-test-123'
+  # Akismet returns true when author == 'viagra-test-123'
   def test_check_with_spam_returns_true
     spam, blatant = @client.check('ip', 'ua', author: 'viagra-test-123')
     assert spam
@@ -51,6 +50,7 @@ class ClientTest < MiniTest::Unit::TestCase
     refute spam
   end
 
+  # Akismet returns true when author == 'viagra-test-123'
   def test_spam_with_spam_returns_true
     assert @client.spam?('ip', 'ua', author: 'viagra-test-123')
   end
