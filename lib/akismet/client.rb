@@ -275,8 +275,6 @@ module Akismet
     # @param [String] user_agent
     # @param [Hash] params
     # @return [Net::HTTPResponse]
-    # @raise [Akismet::Error]
-    #   The API key is invalid.
     #
     def invoke_comment_method(method_name, user_ip, user_agent, params = {})
       params = params.each_with_object(Hash.new) do |(name, value), hash|
