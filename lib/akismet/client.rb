@@ -178,6 +178,7 @@ module Akismet
     #   comment is spam. The second indicates whether it is "blatant,"
     #   i.e. whether it can be deleted without review.
     # @raise [Akismet::Error]
+    #   The Akismet service returned an error
     #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
