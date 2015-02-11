@@ -55,18 +55,10 @@ class ClientTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_ham_returns_nil
-    assert_nil @client.ham( 'ip', 'ua' )
-  end
-
   def test_spam_with_invalid_api_key_raises
     assert_raises( Akismet::Error ) do
       @invalid_client.spam 'ip', 'ua'
     end
-  end
-
-  def test_spam_returns_nil
-    assert_nil @client.spam 'ip', 'ua'
   end
 
   def test_class_open
