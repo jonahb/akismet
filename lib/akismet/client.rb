@@ -147,15 +147,7 @@ module Akismet
       response.body == 'valid'
     end
 
-    # Checks whether a comment is spam. You are encouraged the submit, in
-    # addition to the documented parameters, data about the client and the
-    # comment submission. For example, if the client is an HTTP server,
-    # include HTTP headers and environment variables.
-    #
-    # If the Client is not open, opens it for the duration of the call.
-    #
-    # @return [Boolean]
-    # @raise [Akismet::Error]
+    # Checks whether a comment is spam and whether it is "blatant."
     # @param [String] user_ip
     #   The IP address of the submitter of the comment.
     # @param [String] user_agent
@@ -179,6 +171,11 @@ module Akismet
     #   The comment author's email address
     # @option params [String] :author_url
     #   The comment author's home page URL
+    # @return [(Boolean, Boolean)]
+    #   An array containing two booleans. The first indicates whether the
+    #   comment is spam. The second indicates whether it is "blatant,"
+    #   i.e. whether it can be deleted without review.
+    # @raise [Akismet::Error]
     #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
@@ -190,9 +187,22 @@ module Akismet
         raise_with_response response
       end
 
-      response.body == 'true'
+      [
+        response.body == 'true',
+        response['X-akismet-pro-tip'] == 'discard'
+      ]
     end
     alias_method :comment_check, :check
+
+    # Checks whether a comment is spam.
+    # @param (see #check)
+    # @option (see #check)
+    # @return [Boolean]
+    # @raise (see #check)
+    #
+    def spam?(user_ip, user_agent, params = {})
+      check(user_ip, user_agent, params)[0]
+    end
 
     # Submits a comment that has been identified as not-spam (ham). If the
     # Client is not open, opens it for the duration of the call.
