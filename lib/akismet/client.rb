@@ -6,11 +6,11 @@ module Akismet
 
   class Client
 
-    # The API key obtained at akismet.com.
+    # The API key obtained at akismet.com
     # @return [String]
     attr_reader :api_key
 
-    # The URL of the home page of the application making the request.
+    # A URL that identifies the application making the request
     # @return [String]
     attr_reader :home_url
 
@@ -25,16 +25,16 @@ module Akismet
     #@!group Constructors
 
     # @param [String] api_key
-    #   The API key obtained at akismet.com.
+    #   The API key obtained at akismet.com
     # @param [String] home_url
-    #   The URL of the home page of the application making the request.
+    #   The URL of the home page of the application making the request
     # @option options [String] :app_name
     #   The name of the application making the request, e.g. "jonahb.com".
     #   Forms part of the User-Agent header submitted to Akismet.
     # @option options [String] :app_version
     #   The version of the application making the request, e.g. "1.0". Forms
     #   part of the User-Agent header submitted to Akismet. Ignored if
-    #   :app_name is not privded.
+    #   :app_name is not provided.
     #
     def initialize(api_key, home_url, options = {})
       @api_key = api_key
@@ -47,16 +47,8 @@ module Akismet
     #@!group Managing Connections
 
     # Initializes a client, opens it, yields it to the given block, and closes
-    # it when the block returns.
-    #
-    # @example Submit several spam reports over a single TCP connection
-    #   # `comments` is an array of model objects; `request` is a racklike HTTP request
-    #   Akismet::Client.open('api_key', 'http://example.com') do |client|
-    #     for comment in comments
-    #       client.spam request.ip, request.user_agent, text: comment.text
-    #     end
-    #   end
-    #
+    # it when the block returns. Allows you to perform several operations over
+    # a single TCP connection.
     # @param (see #initialize)
     # @option (see #initialize)
     # @yieldparam [Client] client
@@ -78,9 +70,9 @@ module Akismet
     # the caller to close the client with {#close}.
     #
     # Note that opening and closing the client is only required if you want to
-    # make several calls under one TCP connection. Otherwise, you can simply
-    # call {#check}, {#ham}, or {#spam}, which call {#open} for you if
-    # necessary.
+    # make several calls over one TCP connection. Otherwise, you can simply
+    # call {#spam?}, {#check}, {#ham}, or {#spam}, which call {#open} for you
+    # if necessary.
     #
     # Due to a peculiarity of the Akismet API, {#verify_key} always creates its
     # own connection.
@@ -132,8 +124,6 @@ module Akismet
     #@!group Verifying Keys
 
     # Checks the validity of the API key.
-    # @example
-    #   Akismet::Client.new('apikey', 'http://example.com').verify_key
     # @return [Boolean]
     #
     def verify_key
@@ -152,24 +142,22 @@ module Akismet
 
     # Checks whether a comment is spam and whether it is "blatant."
     # @param [String] user_ip
-    #   The IP address of the submitter of the comment.
+    #   The comment author's IP address
     # @param [String] user_agent
-    #   The user agent of the web browser submitting the comment. Typically
-    #   the HTTP_USER_AGENT CGI variable. Not to be confused with the user
-    #   agent of the Akismet library.
+    #   The comment author's user-agent
     # @param [Hash{Symbol => Object}] params
+    #   Optional parameters. To maximize accuracy, pass as many as possible.
     # @option params [String] :referrer
     #   The value of the HTTP_REFERER header. Note that the parameter is
     #   spelled with two consecutive 'r's.
     # @option params [String] :post_url
     #   The URL of the post, article, etc. on which the comment was made
-    # @option params [DateTime] post_modified_at
+    # @option params [DateTime] :post_modified_at
     #   The date and time the post was last modified
     # @option params [String] :type
-    #   'comment', 'trackback', 'pingback', or a made-up value like
-    #   'registration'
+    #   Suggested values include 'comment', 'trackback', and 'pingback'
     # @option params [String] :text
-    #   The text of the comment.
+    #   The text of the comment
     # @option params [DateTime] :created_at
     #   The date and time the comment was created
     # @option params [String] :author
@@ -177,14 +165,15 @@ module Akismet
     # @option params [String] :author_email
     #   The comment author's email address
     # @option params [String] :author_url
-    #   The comment author's home page URL
-    # @option params [Array<String>] languages
+    #   The comment author's personal URL
+    # @option params [Array<String>] :languages
     #   The ISO 639-1 codes of the languages in use on the site where the
     #   comment appears
-    # @option params [Boolean] test
+    # @option params [Boolean] :test
     #   When set to true, Akismet does not use the comment to train the filter
     # @option params [Hash{Symbol, String => Object}] :env
-    #   Environment variables related to the comment submission
+    #   Environment variables such as HTTP headers related to the comment
+    #   submission
     # @return [(Boolean, Boolean)]
     #   An array containing two booleans. The first indicates whether the
     #   comment is spam. The second indicates whether it is "blatant,"
@@ -194,7 +183,7 @@ module Akismet
     # @raise [ArgumentError]
     #   An environment variable conflicts with a built-in parameter
     # @raise [ArgumentError]
-    #   Invalid parameter
+    #   Invalid param
     #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
@@ -225,8 +214,7 @@ module Akismet
 
     #@!group Reporting
 
-    # Submits a comment that has been identified as not-spam (ham). If the
-    # Client is not open, opens it for the duration of the call.
+    # Submits a comment that has been identified as not-spam (ham).
     #
     # @param (see #check)
     # @option (see #check)
@@ -245,8 +233,7 @@ module Akismet
     end
     alias_method :submit_ham, :ham
 
-    # Submits a comment that has been identified as spam. If the Client is not
-    # open, opens it for the duration of the call.
+    # Submits a comment that has been identified as spam.
     #
     # @param (see #check)
     # @option (see #check)
