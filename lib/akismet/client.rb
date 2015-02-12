@@ -317,6 +317,12 @@ module Akismet
     #   An HTTP response other than 200 is received.
     #
     def invoke(http_session, method_name, params = {})
+      params[:blog_charset] = 'UTF-8'
+
+      params = params.collect do |name, value|
+        [name.to_s.encode('UTF-8'), format(value).encode('UTF-8')]
+      end
+
       response = http_session.post("/1.1/#{ method_name }",
         URI.encode_www_form(params),
         http_headers)
