@@ -1,3 +1,4 @@
+require 'date'
 require 'net/http'
 require 'uri'
 
@@ -162,17 +163,26 @@ module Akismet
     #   spelled with two consecutive 'r's.
     # @option params [String] :post_url
     #   The URL of the post, article, etc. on which the comment was made
+    # @option params [DateTime] post_modified_at
+    #   The date and time the post was last modified
     # @option params [String] :type
     #   'comment', 'trackback', 'pingback', or a made-up value like
     #   'registration'
     # @option params [String] :text
     #   The text of the comment.
+    # @option params [DateTime] :created_at
+    #   The date and time the comment was created
     # @option params [String] :author
     #   The comment author's name
     # @option params [String] :author_email
     #   The comment author's email address
     # @option params [String] :author_url
     #   The comment author's home page URL
+    # @option params [Array<String>] languages
+    #   The ISO 639-1 codes of the languages in use on the site where the
+    #   comment appears
+    # @option params [Boolean] test
+    #   When set to true, Akismet does not use the comment to train the filter
     # @option params [Hash{Symbol, String => Object}] :env
     #   Environment variables related to the comment submission
     # @return [(Boolean, Boolean)]
@@ -334,6 +344,23 @@ module Akismet
       response
     end
 
+    # @param [Object] object
+    # @return [String]
+    def format(object)
+      case object
+      when DateTime
+        object.iso8601
+      when TrueClass
+        '1'
+      when FalseClass
+        '0'
+      when Array
+        object.collect { |element| format(element) }.join(', ')
+      else
+        object.to_s
+      end
+    end
+
     # @return [Hash]
     def http_headers
       {
@@ -366,12 +393,16 @@ module Akismet
     PARAM_TO_API_PARAM = {
       referrer: :referrer,
       post_url: :permalink,
+      post_modified_at: :comment_post_modified_gmt,
       text: :comment_content,
+      created_at: :comment_date_gmt,
       type: :comment_type,
       author: :comment_author,
       author_url: :comment_author_url,
       author_email: :comment_author_email,
+      languages: :blog_lang,
       user_role: :user_role,
+      test: :is_test,
     }
 
   end

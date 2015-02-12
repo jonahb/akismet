@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'date'
 
 class ClientTest < MiniTest::Unit::TestCase
 
@@ -48,6 +49,23 @@ class ClientTest < MiniTest::Unit::TestCase
   def test_check_with_ham_returns_false
     spam, _ = @client.check('ip', 'ua', user_role: 'administrator')
     refute spam
+  end
+
+  def test_check_with_all_params
+    @client.check 'ip', 'ua',
+      type: 'comment',
+      text: 'hello',
+      created_at: DateTime.now,
+      author: 'author',
+      author_url: 'http://example.com',
+      author_email: 'joe@example.com',
+      post_url: 'http://example.com/posts/1',
+      post_modified_at: DateTime.now,
+      languages: %w{en fr},
+      referrer: 'http://example.com',
+      env: {a: 1, b: 1},
+      user_role: 'Administrator',
+      test: true
   end
 
   # Akismet returns true when author == 'viagra-test-123'
