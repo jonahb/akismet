@@ -22,7 +22,7 @@ module Akismet
     # @return [String]
     attr_reader :app_version
 
-    #@!group Constructors
+    # @!group Constructors
 
     # @param [String] api_key
     #   The API key obtained at akismet.com
@@ -44,7 +44,7 @@ module Akismet
       @http_session = nil
     end
 
-    #@!group Managing Connections
+    # @!group Managing Connections
 
     # Initializes a client, opens it, yields it to the given block, and closes
     # it when the block returns. Allows you to perform several operations over
@@ -121,7 +121,7 @@ module Akismet
       @http_session && @http_session.started?
     end
 
-    #@!group Verifying Keys
+    # @!group Verifying Keys
 
     # Checks the validity of the API key.
     # @return [Boolean]
@@ -179,7 +179,7 @@ module Akismet
     #   @raise [ArgumentError]
     #     Invalid param
 
-    #@!group Checking
+    # @!group Checking
 
     # Checks whether a comment is spam and whether it is "blatant."
     # @!macro akismet_method
@@ -213,7 +213,7 @@ module Akismet
       check(user_ip, user_agent, params)[0]
     end
 
-    #@!group Reporting
+    # @!group Reporting
 
     # Submits a comment that has been identified as not-spam (ham).
     # @!macro akismet_method
