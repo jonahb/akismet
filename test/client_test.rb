@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'date'
 
-class ClientTest < MiniTest::Unit::TestCase
+class ClientTest < Test
 
   APP_URL = 'http://example.com'
   APP_NAME = 'Akismet tests'
