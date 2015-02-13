@@ -138,52 +138,55 @@ module Akismet
       response.body == 'valid'
     end
 
+    # @!macro akismet_method
+    #   @param [String] user_ip
+    #     The comment author's IP address
+    #   @param [String] user_agent
+    #     The comment author's user-agent
+    #   @param [Hash{Symbol => Object}] params
+    #     Optional parameters. To maximize accuracy, pass as many as possible.
+    #   @option params [String] :referrer
+    #     The value of the HTTP_REFERER header. Note that the parameter is
+    #     spelled with two consecutive 'r's.
+    #   @option params [String] :post_url
+    #     The URL of the post, article, etc. on which the comment was made
+    #   @option params [DateTime] :post_modified_at
+    #     The date and time the post was last modified
+    #   @option params [String] :type
+    #     Suggested values include 'comment', 'trackback', and 'pingback'
+    #   @option params [String] :text
+    #     The text of the comment
+    #   @option params [DateTime] :created_at
+    #     The date and time the comment was created
+    #   @option params [String] :author
+    #     The comment author's name
+    #   @option params [String] :author_email
+    #     The comment author's email address
+    #   @option params [String] :author_url
+    #     The comment author's personal URL
+    #   @option params [Array<String>] :languages
+    #     The ISO 639-1 codes of the languages in use on the site where the
+    #     comment appears
+    #   @option params [Boolean] :test
+    #     When set to true, Akismet does not use the comment to train the filter
+    #   @option params [Hash{Symbol, String => Object}] :env
+    #     Environment variables such as HTTP headers related to the comment
+    #     submission
+    #   @raise [Akismet::Error]
+    #     The Akismet service returned an error
+    #   @raise [ArgumentError]
+    #     An environment variable conflicts with a built-in parameter
+    #   @raise [ArgumentError]
+    #     Invalid param
+
     #@!group Checking
 
     # Checks whether a comment is spam and whether it is "blatant."
-    # @param [String] user_ip
-    #   The comment author's IP address
-    # @param [String] user_agent
-    #   The comment author's user-agent
-    # @param [Hash{Symbol => Object}] params
-    #   Optional parameters. To maximize accuracy, pass as many as possible.
-    # @option params [String] :referrer
-    #   The value of the HTTP_REFERER header. Note that the parameter is
-    #   spelled with two consecutive 'r's.
-    # @option params [String] :post_url
-    #   The URL of the post, article, etc. on which the comment was made
-    # @option params [DateTime] :post_modified_at
-    #   The date and time the post was last modified
-    # @option params [String] :type
-    #   Suggested values include 'comment', 'trackback', and 'pingback'
-    # @option params [String] :text
-    #   The text of the comment
-    # @option params [DateTime] :created_at
-    #   The date and time the comment was created
-    # @option params [String] :author
-    #   The comment author's name
-    # @option params [String] :author_email
-    #   The comment author's email address
-    # @option params [String] :author_url
-    #   The comment author's personal URL
-    # @option params [Array<String>] :languages
-    #   The ISO 639-1 codes of the languages in use on the site where the
-    #   comment appears
-    # @option params [Boolean] :test
-    #   When set to true, Akismet does not use the comment to train the filter
-    # @option params [Hash{Symbol, String => Object}] :env
-    #   Environment variables such as HTTP headers related to the comment
-    #   submission
+    # @!macro akismet_method
     # @return [(Boolean, Boolean)]
     #   An array containing two booleans. The first indicates whether the
     #   comment is spam. The second indicates whether it is "blatant,"
     #   i.e. whether it can be deleted without review.
-    # @raise [Akismet::Error]
-    #   The Akismet service returned an error
-    # @raise [ArgumentError]
-    #   An environment variable conflicts with a built-in parameter
-    # @raise [ArgumentError]
-    #   Invalid param
     #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
@@ -203,10 +206,8 @@ module Akismet
     alias_method :comment_check, :check
 
     # Checks whether a comment is spam.
-    # @param (see #check)
-    # @option (see #check)
+    # @!macro akismet_method
     # @return [Boolean]
-    # @raise (see #check)
     #
     def spam?(user_ip, user_agent, params = {})
       check(user_ip, user_agent, params)[0]
@@ -215,11 +216,8 @@ module Akismet
     #@!group Reporting
 
     # Submits a comment that has been identified as not-spam (ham).
-    #
-    # @param (see #check)
-    # @option (see #check)
+    # @!macro akismet_method
     # @return [void]
-    # @raise (see #check)
     #
     def ham(user_ip, user_agent, params = {})
       response = invoke_comment_method('submit-ham',
@@ -234,11 +232,8 @@ module Akismet
     alias_method :submit_ham, :ham
 
     # Submits a comment that has been identified as spam.
-    #
-    # @param (see #check)
-    # @option (see #check)
+    # @!macro akismet_method
     # @return [void]
-    # @raise (see #check)
     #
     def spam(user_ip, user_agent, params = {})
       response = invoke_comment_method('submit-spam',
