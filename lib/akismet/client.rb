@@ -12,7 +12,7 @@ module Akismet
 
     # A URL that identifies the application making the request
     # @return [String]
-    attr_reader :home_url
+    attr_reader :app_url
 
     # The name of the application making the request
     # @return [String]
@@ -26,7 +26,7 @@ module Akismet
 
     # @param [String] api_key
     #   The API key obtained at akismet.com
-    # @param [String] home_url
+    # @param [String] app_url
     #   The URL of the home page of the application making the request
     # @option options [String] :app_name
     #   The name of the application making the request, e.g. "jonahb.com".
@@ -36,9 +36,9 @@ module Akismet
     #   part of the User-Agent header submitted to Akismet. Ignored if
     #   :app_name is not provided.
     #
-    def initialize(api_key, home_url, options = {})
+    def initialize(api_key, app_url, options = {})
       @api_key = api_key
-      @home_url = home_url
+      @app_url = app_url
       @app_name = options[ :app_name ]
       @app_version = options[ :app_version ]
       @http_session = nil
@@ -55,9 +55,9 @@ module Akismet
     # @return [Client]
     # @see #open
     #
-    def self.open(api_key, home_url, options = {})
+    def self.open(api_key, app_url, options = {})
       raise "Block required" unless block_given?
-      client = new(api_key, home_url)
+      client = new(api_key, app_url)
       client.open { yield client }
       client
     end
@@ -128,7 +128,7 @@ module Akismet
     #
     def verify_key
       response = Net::HTTP.start('rest.akismet.com', 80) do |session|
-        invoke session, 'verify-key', blog: home_url, key: api_key
+        invoke session, 'verify-key', blog: app_url, key: api_key
       end
 
       unless %w{ valid invalid }.include?(response.body)
@@ -294,7 +294,7 @@ module Akismet
         api_params[api_name] = value
       end
 
-      params = env.merge(params).merge(blog: home_url, user_ip: user_ip, user_agent: user_agent)
+      params = env.merge(params).merge(blog: app_url, user_ip: user_ip, user_agent: user_agent)
 
       in_http_session do |session|
         invoke session, method_name, params

@@ -8,7 +8,7 @@ end
 
 # {Akismet} provides convenience methods that instantiate a {Akismet::Client}
 # and invoke the Akismet API in one call. Before calling these methods, set
-# {api_key} and {home_url}.
+# {api_key} and {app_url}.
 #
 module Akismet
   class << self
@@ -21,7 +21,7 @@ module Akismet
     # A URL that identifies the application making the request. Set before
     # calling the {Akismet} class methods.
     # @return [String]
-    attr_accessor :home_url
+    attr_accessor :app_url
 
     # The name of the application making the request
     # @return [String]
@@ -60,8 +60,8 @@ module Akismet
 
     def with_client(&block)
       raise "Set Akismet.api_key" unless api_key
-      raise "Set Akismet.home_url" unless home_url
-      Akismet::Client.open api_key, home_url, app_name: app_name, app_version: app_version, &block
+      raise "Set Akismet.app_url" unless app_url
+      Akismet::Client.open api_key, app_url, app_name: app_name, app_version: app_version, &block
     end
   end
 end

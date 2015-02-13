@@ -3,24 +3,24 @@ require 'date'
 
 class ClientTest < MiniTest::Unit::TestCase
 
-  HOME_URL = 'http://example.com'
+  APP_URL = 'http://example.com'
   APP_NAME = 'Akismet tests'
 
   def setup
     @client = Akismet::Client.new( API_KEY,
-      HOME_URL,
+      APP_URL,
       app_name: APP_NAME,
       app_version: Akismet::VERSION )
 
     @invalid_client = Akismet::Client.new( 'invalid-api-key',
-      HOME_URL,
+      APP_URL,
       app_name: APP_NAME,
       app_version: Akismet::VERSION )
   end
 
   def test_attrs
     assert_equal @client.api_key, API_KEY
-    assert_equal @client.home_url, HOME_URL
+    assert_equal @client.app_url, APP_URL
     assert_equal @client.app_name, 'Akismet tests'
     assert_equal @client.app_version, Akismet::VERSION
   end
@@ -103,7 +103,7 @@ class ClientTest < MiniTest::Unit::TestCase
   end
 
   def test_class_open
-    Akismet::Client.open( API_KEY, HOME_URL ) do |client|
+    Akismet::Client.open( API_KEY, APP_URL ) do |client|
       assert client.is_a?( Akismet::Client )
       assert client.open?
     end

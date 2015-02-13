@@ -4,7 +4,7 @@ class AkismetTest < MiniTest::Unit::TestCase
 
   def setup
     Akismet.api_key = API_KEY
-    Akismet.home_url = 'http://example.com'
+    Akismet.app_url = 'http://example.com'
   end
 
   [:spam?, :check, :spam, :ham].each do |method|
@@ -20,8 +20,8 @@ class AkismetTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_check_raises_if_home_url_not_set
-    Akismet.home_url = nil
+  def test_check_raises_if_app_url_not_set
+    Akismet.app_url = nil
     assert_raises(RuntimeError) do
       Akismet.check 'ip', 'ua'
     end
