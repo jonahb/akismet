@@ -52,14 +52,14 @@ module Akismet
     # @param (see #initialize)
     # @option (see #initialize)
     # @yieldparam [Client] client
-    # @return [Client]
+    # @return [Object]
+    #   The return value of the block
     # @see #open
     #
     def self.open(api_key, app_url, options = {})
       raise "Block required" unless block_given?
       client = new(api_key, app_url)
       client.open { yield client }
-      client
     end
 
     # Opens the client, creating a new TCP connection.
