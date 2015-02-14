@@ -78,10 +78,24 @@ class ClientTest < Test
     assert_equal false, @client.spam?('ip', 'ua', user_role: 'administrator')
   end
 
+  def test_spam_predicate_with_invalid_api_key_raises
+    assert_raises( Akismet::Error ) do
+      @invalid_client.spam? 'ip', 'ua'
+    end
+  end
+
+  def test_ham_succeeds
+    @client.ham 'ip', 'ua', text: 'hello'
+  end
+
   def test_ham_with_invalid_api_key_raises
     assert_raises( Akismet::Error ) do
       @invalid_client.ham 'ip', 'ua'
     end
+  end
+
+  def test_spam_succeeds
+    @client.spam 'ip', 'ua', test: 'hello'
   end
 
   def test_spam_with_invalid_api_key_raises
