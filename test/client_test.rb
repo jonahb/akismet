@@ -25,15 +25,15 @@ class ClientTest < Test
     assert_equal @client.app_version, Akismet::VERSION
   end
 
-  def test_verify_key_succeeds_with_valid_key
+  def test_verify_key_with_valid_key_returns_true
     assert_equal true, @client.verify_key
   end
 
-  def test_verify_key_fails_with_invalid_key
+  def test_verify_key_with_invalid_key_returns_false
     assert_equal false, @invalid_client.verify_key
   end
 
-  def test_comment_check_with_invalid_api_key_raises
+  def test_check_with_invalid_api_key_raises
     assert_raises( Akismet::Error ) do
       @invalid_client.comment_check 'ip', 'ua'
     end
@@ -51,7 +51,7 @@ class ClientTest < Test
     assert_equal false, spam
   end
 
-  def test_check_with_all_params
+  def test_check_with_all_params_succeeds
     @client.check 'ip', 'ua',
       type: 'comment',
       text: 'hello',
@@ -69,12 +69,12 @@ class ClientTest < Test
   end
 
   # Akismet returns true when author == 'viagra-test-123'
-  def test_spam_with_spam_returns_true
+  def test_spam_predicate_with_spam_returns_true
     assert_equal true, @client.spam?('ip', 'ua', author: 'viagra-test-123')
   end
 
   # Akismet returns false when user_role == 'administrator'
-  def test_spam_with_ham_returns_false
+  def test_spam_predicate_with_ham_returns_false
     assert_equal false, @client.spam?('ip', 'ua', user_role: 'administrator')
   end
 
@@ -102,7 +102,7 @@ class ClientTest < Test
     end
   end
 
-  def test_class_open
+  def test_class_open_yields_open_client
     Akismet::Client.open( API_KEY, APP_URL ) do |client|
       assert client.is_a?( Akismet::Client )
       assert client.open?
@@ -136,7 +136,7 @@ class ClientTest < Test
     assert_raises( RuntimeError ) { @client.open }
   end
 
-  def test_close_raises_nothing_when_client_closed
+  def test_close_succeeds_when_client_closed
     assert !@client.open?
     @client.close
   end
