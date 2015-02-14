@@ -2,7 +2,7 @@
 
 akismet adheres to [SemVer 2.0.0](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 2.0.0 - 2014-02-14
 
 ### Added
 * Short method aliases in `Client`, e.g. `spam` for `submit_spam`
