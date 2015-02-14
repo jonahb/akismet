@@ -90,31 +90,6 @@ class ClientTest < Test
     end
   end
 
-  def test_conflicting_env_var_raises
-    assert_raises(ArgumentError) do
-      @client.check 'ip', 'ua', env: { referrer: 'referrer' }
-    end
-  end
-
-  def test_invalid_param_raises
-    assert_raises(ArgumentError) do
-      @client.check 'ip', 'ua', invalid_param: 'invalid'
-    end
-  end
-
-  def test_class_open_yields_open_client
-    Akismet::Client.open( API_KEY, APP_URL ) do |client|
-      assert client.is_a?( Akismet::Client )
-      assert client.open?
-    end
-  end
-
-  def test_open_with_block_opens_then_closes_client
-    refute @client.open?
-    @client.open { assert @client.open? }
-    refute @client.open?
-  end
-
   def test_open_opens_client
     refute @client.open?
     @client.open
@@ -122,10 +97,9 @@ class ClientTest < Test
     @client.close
   end
 
-  def test_close_closes_client
-    @client.open
-    assert @client.open?
-    @client.close
+  def test_open_with_block_opens_then_closes_client
+    refute @client.open?
+    @client.open { assert @client.open? }
     refute @client.open?
   end
 
@@ -136,9 +110,35 @@ class ClientTest < Test
     assert_raises( RuntimeError ) { @client.open }
   end
 
+  def test_close_closes_client
+    @client.open
+    assert @client.open?
+    @client.close
+    refute @client.open?
+  end
+
   def test_close_succeeds_when_client_closed
     assert !@client.open?
     @client.close
+  end
+
+  def test_class_open_yields_open_client
+    Akismet::Client.open( API_KEY, APP_URL ) do |client|
+      assert client.is_a?( Akismet::Client )
+      assert client.open?
+    end
+  end
+
+  def test_conflicting_env_var_raises
+    assert_raises(ArgumentError) do
+      @client.check 'ip', 'ua', env: { referrer: 'referrer' }
+    end
+  end
+
+  def test_invalid_param_raises
+    assert_raises(ArgumentError) do
+      @client.check 'ip', 'ua', invalid_param: 'invalid'
+    end
   end
 
 end
