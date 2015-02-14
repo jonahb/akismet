@@ -26,11 +26,11 @@ class ClientTest < Test
   end
 
   def test_verify_key_succeeds_with_valid_key
-    assert @client.verify_key
+    assert_equal true, @client.verify_key
   end
 
   def test_verify_key_fails_with_invalid_key
-    assert !@invalid_client.verify_key
+    assert_equal false, @invalid_client.verify_key
   end
 
   def test_comment_check_with_invalid_api_key_raises
@@ -42,13 +42,13 @@ class ClientTest < Test
   # Akismet returns true when author == 'viagra-test-123'
   def test_check_with_spam_returns_true
     spam, _ = @client.check('ip', 'ua', author: 'viagra-test-123')
-    assert spam
+    assert_equal true, spam
   end
 
   # Akismet returns false when user_role == 'administrator'
   def test_check_with_ham_returns_false
     spam, _ = @client.check('ip', 'ua', user_role: 'administrator')
-    refute spam
+    assert_equal false, spam
   end
 
   def test_check_with_all_params
@@ -70,12 +70,12 @@ class ClientTest < Test
 
   # Akismet returns true when author == 'viagra-test-123'
   def test_spam_with_spam_returns_true
-    assert @client.spam?('ip', 'ua', author: 'viagra-test-123')
+    assert_equal true, @client.spam?('ip', 'ua', author: 'viagra-test-123')
   end
 
   # Akismet returns false when user_role == 'administrator'
   def test_spam_with_ham_returns_false
-    refute @client.spam?('ip', 'ua', user_role: 'administrator')
+    assert_equal false, @client.spam?('ip', 'ua', user_role: 'administrator')
   end
 
   def test_ham_with_invalid_api_key_raises
