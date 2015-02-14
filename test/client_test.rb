@@ -115,12 +115,18 @@ class ClientTest < Test
     refute @client.open?
   end
 
-  def test_instance_open_close
-    assert !@client.open?
+  def test_open_opens_client
+    refute @client.open?
     @client.open
     assert @client.open?
     @client.close
-    assert !@client.open?
+  end
+
+  def test_close_closes_client
+    @client.open
+    assert @client.open?
+    @client.close
+    refute @client.open?
   end
 
   def test_open_raises_when_client_open
