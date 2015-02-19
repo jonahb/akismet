@@ -51,6 +51,11 @@ class ClientTest < Test
     assert_equal false, spam
   end
 
+  def test_check_with_blatant_spam_returns_discard_false
+    _, discard = @client.check('ip', 'ua', test: true, test_discard: true)
+    assert_equal true, discard
+  end
+
   def test_check_with_all_params_succeeds
     @client.check 'ip', 'ua',
       type: 'comment',

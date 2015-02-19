@@ -385,6 +385,7 @@ module Akismet
       languages: :blog_lang,
       user_role: :user_role,
       test: :is_test,
+      test_discard: :test_discard,
     }
 
   end
