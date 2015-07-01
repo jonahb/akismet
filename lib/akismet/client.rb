@@ -37,8 +37,8 @@ module Akismet
     #   :app_name is not provided.
     #
     def initialize(api_key, app_url, options = {})
-      @api_key = api_key
-      @app_url = app_url
+      @api_key = api_key.respond_to?(:call) ? api_key.call : api_key
+      @app_url = app_url.respond_to?(:call) ? app_url.call : app_url
       @app_name = options[ :app_name ]
       @app_version = options[ :app_version ]
       @http_session = nil

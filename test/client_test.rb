@@ -25,6 +25,22 @@ class ClientTest < Test
     assert_equal @client.app_version, Akismet::VERSION
   end
 
+  def test_accepts_callable_as_key
+    client = Akismet::Client.new( ->{ 'the_key' },
+      APP_URL,
+      app_name: APP_NAME,
+      app_version: Akismet::VERSION )
+    assert_equal 'the_key', client.api_key
+  end
+
+  def test_accepts_callable_as_url
+    client = Akismet::Client.new( API_KEY,
+      ->{ 'the_url' },
+      app_name: APP_NAME,
+      app_version: Akismet::VERSION )
+    assert_equal 'the_url', client.app_url
+  end
+
   def test_verify_key_with_valid_key_returns_true
     assert_equal true, @client.verify_key
   end
