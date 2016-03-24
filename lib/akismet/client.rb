@@ -85,7 +85,7 @@ module Akismet
     #   @return [Object]
     #     The return value of the block
     #   @raise [StandardError]
-    #     The client is already open    
+    #     The client is already open
     # @overload open
     #   @return [self]
     #   @raise [StandardError]
@@ -174,9 +174,9 @@ module Akismet
     #     submission
     #   @raise [Akismet::Error]
     #     The Akismet service returned an error
-    #   @raise [ArgumentError]
+    #   @raise [Akismet::ArgumentError]
     #     An environment variable conflicts with a built-in parameter
-    #   @raise [ArgumentError]
+    #   @raise [Akismet::ArgumentError]
     #     Invalid param
 
     # @!group Checking
@@ -266,7 +266,7 @@ module Akismet
 
     # @param [Net::HTTPResponse] response
     def raise_with_response( response )
-      raise Error, response['X-akismet-debug-help'] || 'Unknown error'
+      raise Akismet::ResponseError, response['X-akismet-debug-help'] || 'Unknown error'
     end
 
     # @param [String] method_name
@@ -274,23 +274,23 @@ module Akismet
     # @param [String] user_agent
     # @param [Hash] params
     # @return [Net::HTTPResponse]
-    # @raise [ArgumentError]
+    # @raise [Akismet::ArgumentError]
     #   An environment variable conflicts with a built-in parameter
-    # @raise [ArgumentError]
+    # @raise [Akismet::ArgumentError]
     #   Invalid parameter
     #
     def invoke_comment_method(method_name, user_ip, user_agent, params = {})
       env = params[:env] || {}
 
-      for key in env.keys
+      env.keys.each do |key|
         if PARAM_TO_API_PARAM.has_value?(key.to_sym)
-          raise ArgumentError, "Environment variable '#{key}' conflicts with built-in API parameter"
+          raise Akismet::ArgumentError, "Environment variable '#{key}' conflicts with built-in API parameter"
         end
       end
 
       params = params.each_with_object(Hash.new) do |(name, value), api_params|
         next if name == :env
-        api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{name}")
+        api_name = PARAM_TO_API_PARAM[name] || raise(Akismet::ArgumentError, "Invalid param: #{name}")
         api_params[api_name] = value
       end
 
@@ -320,7 +320,7 @@ module Akismet
         http_headers)
 
       unless response.is_a?( Net::HTTPOK )
-        raise Error, "HTTP #{ response.code } received (expected 200)"
+        raise Akismet::Error, "HTTP #{ response.code } received (expected 200)"
       end
 
       response

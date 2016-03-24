@@ -34,7 +34,7 @@ class ClientTest < Test
   end
 
   def test_check_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises(Akismet::ResponseError) do
       @invalid_client.comment_check 'ip', 'ua'
     end
   end
@@ -84,7 +84,7 @@ class ClientTest < Test
   end
 
   def test_spam_predicate_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::ResponseError) do
       @invalid_client.spam? 'ip', 'ua'
     end
   end
@@ -94,7 +94,7 @@ class ClientTest < Test
   end
 
   def test_ham_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::ResponseError ) do
       @invalid_client.ham 'ip', 'ua'
     end
   end
@@ -104,7 +104,7 @@ class ClientTest < Test
   end
 
   def test_spam_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises( Akismet::ResponseError ) do
       @invalid_client.spam 'ip', 'ua'
     end
   end
@@ -149,13 +149,13 @@ class ClientTest < Test
   end
 
   def test_conflicting_env_var_raises
-    assert_raises(ArgumentError) do
+    assert_raises(Akismet::ArgumentError) do
       @client.check 'ip', 'ua', env: { referrer: 'referrer' }
     end
   end
 
   def test_invalid_param_raises
-    assert_raises(ArgumentError) do
+    assert_raises(Akismet::ArgumentError) do
       @client.check 'ip', 'ua', invalid_param: 'invalid'
     end
   end

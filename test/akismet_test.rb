@@ -15,14 +15,14 @@ class AkismetTest < Test
 
   def test_check_raises_if_api_key_not_set
     Akismet.api_key = nil
-    assert_raises(RuntimeError) do
+    assert_raises(Akismet::Error) do
       Akismet.check 'ip', 'ua'
     end
   end
 
   def test_check_raises_if_app_url_not_set
     Akismet.app_url = nil
-    assert_raises(RuntimeError) do
+    assert_raises(Akismet::Error) do
       Akismet.check 'ip', 'ua'
     end
   end
