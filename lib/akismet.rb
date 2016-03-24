@@ -59,8 +59,8 @@ module Akismet
     private
 
     def with_client(&block)
-      raise "Set Akismet.api_key" unless api_key
-      raise "Set Akismet.app_url" unless app_url
+      raise(Akismet::Error, "Set Akismet.api_key") unless api_key
+      raise(Akismet::Error, "Set Akismet.app_url") unless app_url
       Akismet::Client.open api_key, app_url, app_name: app_name, app_version: app_version, &block
     end
   end
