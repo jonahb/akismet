@@ -94,7 +94,9 @@ module Akismet
     def open
       raise "Already open" if open?
 
-      @http_session = Net::HTTP.new( "#{ api_key }.rest.akismet.com", 80 )
+      uri = URI("https://#{ api_key }.rest.akismet.com")
+      @http_session = Net::HTTP.new(uri.host, uri.port)
+      @http_session.use_ssl = uri.scheme == 'https'
 
       begin
         @http_session.start
