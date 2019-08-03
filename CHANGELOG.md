@@ -2,7 +2,7 @@
 
 akismet adheres to [SemVer 2.0.0](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 3.0.0 - 2019-08-03
 
 ### Changed
 * Ruby 2.4+ required
