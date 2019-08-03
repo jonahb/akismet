@@ -58,7 +58,7 @@ module Akismet
     #
     def self.open(api_key, app_url, options = {})
       raise "Block required" unless block_given?
-      client = new(api_key, app_url)
+      client = new(api_key, app_url, options)
       client.open { yield client }
     end
 
