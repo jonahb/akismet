@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AkismetTest < Test
+class AkismetTest < Minitest::Test
 
   def setup
     Akismet.api_key = API_KEY
