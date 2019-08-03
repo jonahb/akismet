@@ -94,7 +94,8 @@ module Akismet
     def open
       raise "Already open" if open?
 
-      @http_session = Net::HTTP.new( "#{ api_key }.rest.akismet.com", 80 )
+      @http_session = Net::HTTP.new("#{ api_key }.rest.akismet.com", Net::HTTP.https_default_port)
+      @http_session.use_ssl = true
 
       begin
         @http_session.start
@@ -127,7 +128,7 @@ module Akismet
     # @return [Boolean]
     #
     def verify_key
-      response = Net::HTTP.start('rest.akismet.com', 80) do |session|
+      response = Net::HTTP.start('rest.akismet.com', use_ssl: true) do |session|
         invoke session, 'verify-key', blog: app_url, key: api_key
       end
 
