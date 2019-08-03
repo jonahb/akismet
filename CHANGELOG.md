@@ -7,6 +7,7 @@ akismet adheres to [SemVer 2.0.0](http://semver.org/spec/v2.0.0.html).
 ### Changed
 * Ruby 2.4+ required
 * All connections to Akismet use HTTPS
+* `Akismet::API_VERSION` removed
 
 ### Fixed
 * `Akismet::Client.open` ignores options
