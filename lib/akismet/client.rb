@@ -85,7 +85,7 @@ module Akismet
     #   @return [Object]
     #     The return value of the block
     #   @raise [StandardError]
-    #     The client is already open    
+    #     The client is already open
     # @overload open
     #   @return [self]
     #   @raise [StandardError]
