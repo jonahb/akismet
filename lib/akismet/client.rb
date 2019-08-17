@@ -288,7 +288,7 @@ module Akismet
         end
       end
 
-      params = params.each_with_object(Hash.new) do |(name, value), api_params|
+      params = params.each_with_object({}) do |(name, value), api_params|
         next if name == :env
 
         api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{ name }")
