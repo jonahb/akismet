@@ -205,7 +205,7 @@ module Akismet
         response['X-akismet-pro-tip'] == 'discard'
       ]
     end
-    alias_method :comment_check, :check
+    alias comment_check check
 
     # Checks whether a comment is spam.
     # @!macro akismet_method
@@ -231,7 +231,7 @@ module Akismet
         raise_with_response response
       end
     end
-    alias_method :submit_ham, :ham
+    alias submit_ham ham
 
     # Submits a comment that has been identified as spam.
     # @!macro akismet_method
@@ -247,7 +247,7 @@ module Akismet
         raise_with_response response
       end
     end
-    alias_method :submit_spam, :spam
+    alias submit_spam spam
 
     private
 
