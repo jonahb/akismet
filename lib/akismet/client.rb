@@ -58,7 +58,7 @@ module Akismet
     # @see #open
     #
     def self.open(api_key, app_url, options = {})
-      raise "Block required" unless block_given?
+      raise 'Block required' unless block_given?
       client = new(api_key, app_url, options)
       client.open { yield client }
     end
@@ -93,7 +93,7 @@ module Akismet
     #     The client is already open
     #
     def open
-      raise "Already open" if open?
+      raise 'Already open' if open?
 
       @http_session = Net::HTTP.new("#{ api_key }.rest.akismet.com", Net::HTTP.https_default_port)
       @http_session.use_ssl = true
@@ -359,14 +359,14 @@ module Akismet
     # @return [String]
     #
     def user_agent
-      [user_agent_app, user_agent_plugin].compact.join(" | ")
+      [user_agent_app, user_agent_plugin].compact.join(' | ')
     end
 
     # Returns nil if the Client was instantiated without an app_name.
     # @return [String]
     #
     def user_agent_app
-      app_name && [app_name, app_version].compact.join("/")
+      app_name && [app_name, app_version].compact.join('/')
     end
 
     # @return [String]
