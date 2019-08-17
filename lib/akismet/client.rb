@@ -39,8 +39,8 @@ module Akismet
     def initialize(api_key, app_url, options = {})
       @api_key = api_key
       @app_url = app_url
-      @app_name = options[ :app_name ]
-      @app_version = options[ :app_version ]
+      @app_name = options[:app_name]
+      @app_version = options[:app_version]
       @http_session = nil
     end
 
