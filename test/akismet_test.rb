@@ -8,7 +8,7 @@ class AkismetTest < Minitest::Test
     Akismet.app_url = 'http://example.com'
   end
 
-  [:spam?, :check, :spam, :ham].each do |method|
+  %i[spam? check spam ham].each do |method|
     define_method("test_#{method}_succeeds") do
       Akismet.send method, 'ip', 'ua'
     end
