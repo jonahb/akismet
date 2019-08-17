@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-%w{
+%w[
   version
   error
   client
-}.each do |file|
+].each do |file|
   require "akismet/#{file}"
 end
 

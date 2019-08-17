@@ -68,7 +68,7 @@ class ClientTest < Minitest::Test
       author_email: 'joe@example.com',
       post_url: 'http://example.com/posts/1',
       post_modified_at: DateTime.now,
-      languages: %w{en fr},
+      languages: %w[en fr],
       referrer: 'http://example.com',
       env: {a: 1, b: 1},
       user_role: 'Administrator',
