@@ -69,7 +69,7 @@ class ClientTest < Minitest::Test
       post_modified_at: DateTime.now,
       languages: %w[en fr],
       referrer: 'http://example.com',
-      env: {a: 1, b: 1},
+      env: { a: 1, b: 1 },
       user_role: 'Administrator',
       test: true
   end
