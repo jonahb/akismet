@@ -249,9 +249,7 @@ module Akismet
     end
     alias_method :submit_spam, :spam
 
-
     private
-
 
     # Yields an HTTP session to the given block. Uses this instance's open
     # session if any; otherwise opens one and closes it when the block
