@@ -59,6 +59,7 @@ module Akismet
     #
     def self.open(api_key, app_url, options = {})
       raise 'Block required' unless block_given?
+
       client = new(api_key, app_url, options)
       client.open { yield client }
     end
@@ -292,6 +293,7 @@ module Akismet
 
       params = params.each_with_object(Hash.new) do |(name, value), api_params|
         next if name == :env
+
         api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{name}")
         api_params[api_name] = value
       end
