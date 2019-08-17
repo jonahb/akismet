@@ -5,7 +5,6 @@ require 'net/http'
 require 'uri'
 
 module Akismet
-
   class Client
     # The API key obtained at akismet.com
     # @return [String]
