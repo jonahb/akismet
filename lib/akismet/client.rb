@@ -389,6 +389,6 @@ module Akismet
       user_role: :user_role,
       test: :is_test,
       test_discard: :test_discard
-    }
+    }.freeze
   end
 end
