@@ -133,7 +133,7 @@ module Akismet
         invoke session, 'verify-key', blog: app_url, key: api_key
       end
 
-      unless %w[ valid invalid ].include?(response.body)
+      unless %w[valid invalid].include?(response.body)
         raise_with_response response
       end
 
@@ -196,7 +196,7 @@ module Akismet
         user_agent,
         params)
 
-      unless %w[ true false ].include?(response.body)
+      unless %w[true false].include?(response.body)
         raise_with_response response
       end
 
