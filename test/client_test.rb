@@ -4,7 +4,6 @@ require 'test_helper'
 require 'date'
 
 class ClientTest < Minitest::Test
-
   APP_URL = 'http://example.com'
   APP_NAME = 'Akismet tests'
 
@@ -161,5 +160,4 @@ class ClientTest < Minitest::Test
       @client.check 'ip', 'ua', invalid_param: 'invalid'
     end
   end
-
 end

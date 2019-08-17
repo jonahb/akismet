@@ -14,7 +14,6 @@ end
 #
 module Akismet
   class << self
-
     # The API key obtained at akismet.com. Set before calling the {Akismet}
     # class methods.
     # @return [String]

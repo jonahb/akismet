@@ -3,7 +3,6 @@
 require 'test_helper'
 
 class AkismetTest < Minitest::Test
-
   def setup
     Akismet.api_key = API_KEY
     Akismet.app_url = 'http://example.com'
@@ -40,5 +39,4 @@ class AkismetTest < Minitest::Test
       Akismet.open
     end
   end
-
 end

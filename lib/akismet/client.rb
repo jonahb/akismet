@@ -7,7 +7,6 @@ require 'uri'
 module Akismet
 
   class Client
-
     # The API key obtained at akismet.com
     # @return [String]
     attr_reader :api_key
@@ -390,6 +389,5 @@ module Akismet
       test: :is_test,
       test_discard: :test_discard,
     }
-
   end
 end
