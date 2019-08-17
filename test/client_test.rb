@@ -7,15 +7,15 @@ class ClientTest < Minitest::Test
   APP_NAME = 'Akismet tests'
 
   def setup
-    @client = Akismet::Client.new( API_KEY,
+    @client = Akismet::Client.new(API_KEY,
       APP_URL,
       app_name: APP_NAME,
-      app_version: Akismet::VERSION )
+      app_version: Akismet::VERSION)
 
-    @invalid_client = Akismet::Client.new( 'invalid-api-key',
+    @invalid_client = Akismet::Client.new('invalid-api-key',
       APP_URL,
       app_name: APP_NAME,
-      app_version: Akismet::VERSION )
+      app_version: Akismet::VERSION)
   end
 
   def test_attrs
@@ -34,7 +34,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_check_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises(Akismet::Error) do
       @invalid_client.comment_check 'ip', 'ua'
     end
   end
@@ -84,7 +84,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_spam_predicate_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises(Akismet::Error) do
       @invalid_client.spam? 'ip', 'ua'
     end
   end
@@ -94,7 +94,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_ham_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises(Akismet::Error) do
       @invalid_client.ham 'ip', 'ua'
     end
   end
@@ -104,7 +104,7 @@ class ClientTest < Minitest::Test
   end
 
   def test_spam_with_invalid_api_key_raises
-    assert_raises( Akismet::Error ) do
+    assert_raises(Akismet::Error) do
       @invalid_client.spam 'ip', 'ua'
     end
   end
@@ -126,7 +126,7 @@ class ClientTest < Minitest::Test
     assert !@client.open?
     @client.open
     assert @client.open?
-    assert_raises( RuntimeError ) { @client.open }
+    assert_raises(RuntimeError) { @client.open }
   end
 
   def test_close_closes_client
@@ -142,8 +142,8 @@ class ClientTest < Minitest::Test
   end
 
   def test_class_open_yields_open_client
-    Akismet::Client.open( API_KEY, APP_URL ) do |client|
-      assert client.is_a?( Akismet::Client )
+    Akismet::Client.open(API_KEY, APP_URL) do |client|
+      assert client.is_a?(Akismet::Client)
       assert client.open?
     end
   end

@@ -266,7 +266,7 @@ module Akismet
     end
 
     # @param [Net::HTTPResponse] response
-    def raise_with_response( response )
+    def raise_with_response(response)
       raise Error, response['X-akismet-debug-help'] || 'Unknown error'
     end
 
@@ -320,7 +320,7 @@ module Akismet
         URI.encode_www_form(params),
         http_headers)
 
-      unless response.is_a?( Net::HTTPOK )
+      unless response.is_a?(Net::HTTPOK)
         raise Error, "HTTP #{ response.code } received (expected 200)"
       end
 
