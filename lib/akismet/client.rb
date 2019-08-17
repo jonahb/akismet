@@ -283,7 +283,7 @@ module Akismet
       env = params[:env] || {}
 
       for key in env.keys
-        if PARAM_TO_API_PARAM.has_value?(key.to_sym)
+        if PARAM_TO_API_PARAM.value?(key.to_sym)
           raise ArgumentError, "Environment variable '#{ key }' conflicts with built-in API parameter"
         end
       end
