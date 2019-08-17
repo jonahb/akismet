@@ -269,6 +269,8 @@ module Akismet
       raise Error, response['X-akismet-debug-help'] || 'Unknown error'
     end
 
+    # rubocop:disable Metrics/AbcSize
+
     # @param [String] method_name
     # @param [String] user_ip
     # @param [String] user_agent
@@ -301,6 +303,7 @@ module Akismet
         invoke session, method_name, params
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     # @param [Net::HTTP] http_session
     #   A started HTTP session
