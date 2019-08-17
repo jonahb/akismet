@@ -286,14 +286,14 @@ module Akismet
 
       for key in env.keys
         if PARAM_TO_API_PARAM.has_value?(key.to_sym)
-          raise ArgumentError, "Environment variable '#{key}' conflicts with built-in API parameter"
+          raise ArgumentError, "Environment variable '#{ key }' conflicts with built-in API parameter"
         end
       end
 
       params = params.each_with_object(Hash.new) do |(name, value), api_params|
         next if name == :env
 
-        api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{name}")
+        api_name = PARAM_TO_API_PARAM[name] || raise(ArgumentError, "Invalid param: #{ name }")
         api_params[api_name] = value
       end
 

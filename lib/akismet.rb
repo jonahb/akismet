@@ -5,7 +5,7 @@
   error
   client
 ].each do |file|
-  require "akismet/#{file}"
+  require "akismet/#{ file }"
 end
 
 # {Akismet} provides convenience methods that instantiate a {Akismet::Client}

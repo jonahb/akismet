@@ -9,7 +9,7 @@ class AkismetTest < Minitest::Test
   end
 
   %i[spam? check spam ham].each do |method|
-    define_method("test_#{method}_succeeds") do
+    define_method("test_#{ method }_succeeds") do
       Akismet.send method, 'ip', 'ua'
     end
   end
