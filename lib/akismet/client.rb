@@ -120,7 +120,7 @@ module Akismet
     # @return [Boolean]
     #
     def open?
-      @http_session && @http_session.started?
+      @http_session&.started?
     end
 
     # @!group Verifying Keys
