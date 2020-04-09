@@ -190,6 +190,12 @@ module Akismet
     #   comment is spam. The second indicates whether it is "blatant,"
     #   i.e. whether it can be deleted without review.
     #
+    # You may also refer to the [upstream
+    # documentation](https://akismet.com/development/api/#comment-check) of
+    # these parameters. Note that some options have been given shorter names in
+    # this library (such as `type` instead of `comment_type` like it is
+    # upstream.)
+    #
     def check(user_ip, user_agent, params = {})
       response = invoke_comment_method('comment-check',
         user_ip,
