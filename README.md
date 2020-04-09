@@ -55,7 +55,7 @@ Akismet.ham request.ip, request.user_agent, text: '"Viagra" derives from the San
 
 ### Accuracy
 
-To maximize the accuracy of the filter, submit as many of the [documented](http://www.rubydoc.info/gems/akismet) parameters as possible. Also submit environment variables related to the comment as a hash in the `env` parameter (Akismet suggests [these variables](http://php.net/manual/en/reserved.variables.server.php)):
+To maximize the accuracy of the filter, submit as many of the [documented](https://www.rubydoc.info/gems/akismet/Akismet/Client#check-instance_method) parameters as possible. Also submit environment variables related to the comment as a hash in the `env` parameter (Akismet suggests [these variables](http://php.net/manual/en/reserved.variables.server.php)):
 
 ```ruby
 vars = %w{
