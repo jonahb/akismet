@@ -160,4 +160,11 @@ class ClientTest < Minitest::Test
       @client.check 'ip', 'ua', invalid_param: 'invalid'
     end
   end
+
+  def test_params_can_be_symbols_or_keys
+    @client.check 'ip', 'ua', { author: 'Name' }
+    @client.check 'ip', 'ua', {'author' => 'Name'}
+    @client.check 'ip', 'ua', {env: { a: 1, b: 1 }}
+    @client.check 'ip', 'ua', {env: {'a' => 1, 'b' => 1}}
+  end
 end
